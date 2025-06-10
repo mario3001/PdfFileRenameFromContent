@@ -1,0 +1,163 @@
+# based on: synOCR_YAMLRULEFILE 
+# reduced set of rule proerties
+
+        ###########################################################################################################
+        #                                                                                                         #
+        #                        BITTE BEACHTE DIESE ANLEITUNG                                                    #
+        #                                                                                                         #
+        #   • es ist sehr wichtig, die korrekten Einrückungen einzufügen                                          #
+        #       • verwende keine Tapstops • nur Leerzeichen!                                                      #
+        #       • Verwende die genaue Anzahl von Leerzeichen, wie im Beispiel gezeigt                             #
+        #   • Tipp: copy & paste den Musterblock und passe ihn dann an                                            #
+        #                                                                                                         #
+        #   • nachstehend eine Beschreibung der Schlüsselwörter:                                                  #
+        #       ➜ "sampletagrulename"                                                                            #
+        #           • "sampletagrulename" ist ein Platzhalter für einen individuellen Namen der Regel             #
+        #           • er dient nur zur Unterscheidung des Regelblocks                                             #
+        #           • der Name muss eindeutig sein                                                                #
+        #           • der Name darf mit keiner Zahl beginnen                                                      #
+        #           • am Ende muss ein Doppelpunkt stehen                                                         #
+        #           • jeder Block definiert EINEN Tag                                                             #
+        #           • alle matching Tags werden nach dem sampletagrulename sortiert                               #
+        #       ➜ "tagname:"                                                                                     #
+        #           • Syntax: >tagname: VALUE< (ein Leerzeichen zwischen Doppelpunkt & VALUE)                     #
+        #           • VALUE wird als Tag verwendet, wenn die Regel erfüllt ist                                    #
+        #           • nur lateinische Buchstaben / keine Sonderzeichen!                                           #
+        #           • nur ein Schlüsselwort pro Regel (>tagname:<)                                                #
+        #       ➜ "condition:"                                                                                   #
+        #           • wie viele Suchregeln erfüllt sein müssen, damit die Regel erfüllt wird                      #
+        #           • Syntax: >condition: VALUE<  (ein Leerzeichen zwischen Doppelpunkt & VALUE)                  #
+        #           • VALUE ist "all" / "any" / "none"                                                            #
+        #               • "condition: all"  ➜ alle Suchregeln müssen erfüllt werden                              #
+        #               • "condition: any"  ➜ irgendeine Suchregel muss erfüllt sein                             #
+        #           • nur ein Schlüsselwort pro Regel (>condition:<)                                              #
+        #       ➜ "subrules:"                                                                                    #
+        #           • Danach werden die Suchregeln beschrieben (verändere nicht "subrules:")                      #
+        #           • Ein Suchregelblock besteht immer aus den folgenden vier Schlüsseln                          #
+        #           • eine unbegrenzte Anzahl von Suchregel-Blöcken kann kombiniert werden                        #
+        #       ➜ "- searchstring:"                                                                              #
+        #           • Syntax: >- searchstring: VALUE<                                                             #
+        #             beginnt mit einem Bindestrich und einem Leerzeichen                                         #
+        #             ein Leerzeichen zwischen Doppelpunkt & VALUE                                                #
+        #           • VALUE ist eine Zeichenfolge, ein Suchbegriff oder RegEx                                     #
+        #           • VALUE darf nicht leer sein                                                                  #
+        #       ➜ "searchtyp:"                                                                                   #
+        #           • Syntax: >searchtyp: VALUE<  (ein Leerzeichen zwischen Doppelpunkt & VALUE)                  #
+        #           • VALUE kann sein:                                                                            #
+        #               "contains", "does not contain",             (irgendwo enthalten oder nicht enthalten)     #
+        #               "starts with",                                                                            #
+        #             wenn der Parameter fehlt, wird der Standardwert verwendet, ("contains")                     #
+        #       ➜ "isRegEx:"     => aktuell nicht unterstützt                                                    #
+        #           • definiert Suchbegriff als Text oder RegEx                                                   #
+        #           • Syntax: >isRegEx: VALUE<  (ein Leerzeichen zwischen Doppelpunkt & VALUE)                    #
+        #           • VALUE kann sein: "true" / "false"                                                           #
+        #             wenn der Parameter fehlt, wird der Standardwert verwendet ("false")                         #
+        #       ➜ "source:"                                                                                      #
+        #           • Syntax: >source: VALUE<  (ein Leerzeichen zwischen Doppelpunkt & VALUE)                     #
+        #           • VALUE kann sein: "content" / "filename"                                                     #
+        #             wenn der Parameter fehlt, wird der Standardwert verwendet ("content")                       #
+        #       ➜ "casesensitive:" => aktuell nicht unterstützt                                                  #
+        #           • Syntax: >casesensitive: VALUE<  (ein Leerzeichen zwischen Doppelpunkt & VALUE)              #
+        #           • VALUE kann sein: "true" / "false"                                                           #
+        #             wenn der Parameter fehlt, wird der Standardwert verwendet ("false")                         #
+        #                                                                                                         #
+        #   • abschließend kann die Konfigurationsdatei online überprüft und validiert werden:                    #
+        #       https://codebeautify.org/yaml-validator                                                           #
+        #                                                                                                         #
+        ###########################################################################################################
+
+
+#sample:
+
+#sampletagrulename1:
+#    tagname: "target_tag"
+#    condition: all
+#    subrules:
+#    - searchstring: foundme
+#      searchtyp: contains
+#      isRegEx: false
+#      source: content
+#      casesensitive: true
+#    - searchstring: dontfoundme
+#      searchtyp: is not
+#      isRegEx: false
+#      source: content
+
+     
+Sender_UBS_Mieterkautionssparkonto:
+    tagname: "UBS - Mieterkautionssparkonto"
+    condition: all
+    subrules:
+    - searchstring: UBS
+      searchtyp: contains
+      isRegEx: false
+      source: content
+      casesensitive: false
+    - searchstring: Mieterkautionssparkonto
+      searchtyp: contains
+      isRegEx: false
+      source: content
+      casesensitive: false
+
+Sender_USZNeurologie:
+    tagname: "USZ Neurologie"
+    condition: all
+    subrules:
+    - searchstring: "Universitätsspital Zürich"
+      searchtyp: contains
+      isRegEx: false
+      source: content
+      casesensitive: false
+    - searchstring: "Neurologie"
+      searchtyp: contains
+      isRegEx: false
+      source: content
+      casesensitive: false
+
+Sender_Kanton_Zürich:
+    tagname: "Kanton Zürich"
+    condition: any
+    subrules:
+    - searchstring: "Kanton Zürich"
+      searchtyp: contains
+      multilineregex: false
+      isRegEx: false
+      source: content
+      casesensitive: false
+    - searchstring: "Kantonales Steueramt Zürich"    
+      searchtyp: contains
+      multilineregex: false
+      isRegEx: false
+      source: content
+      casesensitive: false      
+
+Subject_Rechnung:
+    tagname: " - Rechnung"
+    condition: all
+    subrules:
+    - searchstring: "Rechnung"
+      searchtyp: contains
+      isRegEx: false
+      source: content
+      casesensitive: false
+    - searchstring: "Leistungsabrechnung"
+      searchtyp: does not contain
+      isRegEx: false
+      source: content
+      casesensitive: false
+    - searchstring: "Prämienrechnung"
+      searchtyp: does not contain
+      isRegEx: false
+      source: content
+      casesensitive: false
+
+Subject_Zinsabrechnung:
+    tagname: " - Zinsabrechnung"
+    condition: all
+    subrules:
+    - searchstring: "Zinsabrechnung"
+      searchtyp: contains
+      multilineregex: false
+      isRegEx: false
+      source: content
+      casesensitive: false
