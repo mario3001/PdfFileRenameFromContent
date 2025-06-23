@@ -6,9 +6,9 @@ public class RenameProcessor(RuleReader ruleReader, PdfFileProcessor pdfFileProc
 {
     private ICollection<TagRule> _rules;
 
-    public async Task Run(string[] rulesFilePath, string filePath, string destinationFilePath)
+    public async Task Run(string[] rulesFilePaths, string filePath, string targetFolderPath)
     {
-        var rules = await GetRules(rulesFilePath);
+        var rules = await GetRules(rulesFilePaths);
 
         var fileContentInformation = await pdfFileProcessor.SearchMatchingFileTagsAsync(filePath, rules);
         if (!fileContentInformation.MatchingTagRules.Any())
@@ -18,12 +18,19 @@ public class RenameProcessor(RuleReader ruleReader, PdfFileProcessor pdfFileProc
         else
         {
             var newFileName = filenameForTags.GetFilenameByTags(filePath, fileContentInformation);
-            fileRename.RenameAndMove(filePath, newFileName, destinationFilePath);
+
+            var targetFolderPathByTags = filenameForTags.GetTargetFolderByTags(fileContentInformation);
+            if (!string.IsNullOrEmpty(targetFolderPathByTags))
+            {
+                targetFolderPath = Path.Combine(targetFolderPath, targetFolderPathByTags);
+            }
+
+            fileRename.RenameAndMove(filePath, newFileName, targetFolderPath);
         }
     }
 
-    private async Task<ICollection<TagRule>> GetRules(string[] rulesFilePath)
+    private async Task<ICollection<TagRule>> GetRules(string[] rulesFilePaths)
     {
-        return _rules = await ruleReader.ReadRulesAsync(rulesFilePath);
+        return _rules = await ruleReader.ReadRulesAsync(rulesFilePaths);
     }
 }

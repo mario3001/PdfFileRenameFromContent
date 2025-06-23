@@ -71,6 +71,7 @@
 
 #sampletagrulename1:
 #    tagname: "target_tag"
+#    targetfolder: //volume1/documents/target
 #    condition: all
 #    subrules:
 #    - searchstring: foundme
@@ -83,6 +84,16 @@
 #      isRegEx: false
 #      source: content
 
+0RootFolder:
+  tagname: ""
+  targetfolder: //volume1/documents/target
+  condition: all
+  subrules:
+  - searchstring: ""
+    searchtyp: contains
+    isRegEx: false
+    source: content
+    casesensitive: false
      
 Sender_UBS_Mieterkautionssparkonto:
     tagname: "UBS - Mieterkautionssparkonto"
