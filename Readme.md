@@ -20,14 +20,14 @@ This app renames a specified filepath to rename a pdf file based on the content 
 The app settings are stored in the `appsettings.json` file. The following settings are available:
 - `RulesFilePath`: The paths to the rules files. The rules file is a yaml file that contains the rules for renaming the pdf files.
 
-´´´json
+```json
 {
   "RulesFilePath": [
     "X:\\Dokumente\\_Scan\\sample-rules.txt",
     "Z:\\Dokumente\\Subject-rules.txt"
   ]
 }
-´´´
+```
 
 # PdfFileRenameFromContent.Executable
 
@@ -38,9 +38,8 @@ This app renames all found pdf files in a configured folder based on the content
 The app settings are stored in the `appsettings.json` file. The following settings are available:
 - `RulesFilePath`: The paths to the rules files. The rules file is one or more yaml files that contains the rules for renaming the pdf files.
 - `SourceFilePath`: The path to the folder containing the pdf files to be renamed.
-- `DestinationFilePath`: The path to the folder where the renamed pdf files should be saved.
-
-´´´json
+- `DestinationFilePath`: The path to the folder where the renamed pdf files should be saved. It is allwed to use the same path specified under `SourceFilePath`, so the file only gets renamed.
+```json
 {
   "RulesFilePath": [
     "X:\\Dokumente\\_Scan\\sample-rules.txt",
@@ -49,7 +48,7 @@ The app settings are stored in the `appsettings.json` file. The following settin
   "SourceFilePath": "Z:\\Dokumente\\_Scan\\Durchsuchbare-PDF",
   "DestinationFilePath": "Z:\\Dokumente\\_Scan\\Durchsuchbare-PDF\\renamed"
 }
-´´´
+```
 
 # License
 
